@@ -4,9 +4,9 @@ const querystring = require('querystring');
 const port = 8080;
 const app = express();
 
-const redirect_uri = 'http://localhost:8080/callback';
+const redirect_uri = 'https://mpm-node-backend.herokuapp.com/callback';
 
-app.get('/login', (req, res) => {
+app.get('/', (req, res) => {
   res.redirect(
     'https://accounts.spotify.com/authorize?' +
       querystring.stringify({
@@ -40,13 +40,9 @@ app.get('/callback', (req, res) => {
   };
   request.post(authOptions, (error, response, body) => {
     const access_token = body.access_token;
-    const uri = 'http://localhost:8080/token';
+    const uri = 'https://mpm-template.herokuapp.com/';
     res.redirect(uri + '?access_token=' + access_token);
   });
-});
-
-app.get('/token', (req, res) => {
-  console.log(res);
 });
 
 console.log(`Express listening to port: ${port}`);
