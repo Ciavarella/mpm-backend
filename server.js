@@ -40,7 +40,7 @@ app.get('/callback', (req, res) => {
   };
   request.post(authOptions, (error, response, body) => {
     const access_token = body.access_token;
-    const uri = 'https://mpm-template.herokuapp.com/';
+    const uri = 'https://mpm-template.herokuapp.com/index.html';
     res.redirect(uri + '?access_token=' + access_token);
   });
 });
