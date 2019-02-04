@@ -1,11 +1,18 @@
 {
   "name": "Mpm-Helper",
   "version": "1.0.0",
-  "main": "server.js",
+  "homepage": "/",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "heroku-postbuild": "npm install"
   },
+  "buildpacks": [
+    {
+      "url": "https://github.com/mars/create-react-app-buildpack"
+    }
+  ],
   "dependencies": {
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "querystring": "^0.2.0",
     "request": "^2.88.0"
