@@ -1,7 +1,7 @@
 const express = require('express');
 const request = require('request');
 const querystring = require('querystring');
-const port = 8080;
+const port = process.env.PORT || 8080;
 const app = express();
 
 const redirect_uri = 'https://mpm-node-backend.herokuapp.com/callback';
