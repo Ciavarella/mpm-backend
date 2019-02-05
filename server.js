@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
         response_type: 'code',
         client_id: process.env.SPOTIFY_CLIENT_ID,
         scope:
-          'user-read-private user-read-email user-read-currently-playing user-read-playback-state',
+          'user-read-private user-read-email user-read-currently-playing user-read-playback-state user-modify-playback-state',
         redirect_uri
       })
   );
