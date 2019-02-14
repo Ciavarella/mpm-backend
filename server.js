@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/callback', (req, res) => {
+  console.log('callback');
   let code = req.query.code || null;
   let authOptions = {
     url: 'https://accounts.spotify.com/api/token',
@@ -40,6 +41,7 @@ app.get('/callback', (req, res) => {
     json: true
   };
   request.post(authOptions, (error, response, body) => {
+    console.log('callback external post woho');
     const access_token = body.access_token;
     const refresh_token = body.refresh_token;
     const uri = 'https://mpm-template.herokuapp.com/index.html';
@@ -51,7 +53,7 @@ app.get('/callback', (req, res) => {
 
 app.get('/refresh_token', (req, res) => {
   let refresh_token = req.query.refresh_token;
-  let authOptions = {
+  let authOptions1 = {
     url: 'https://accounts.spotify.com/api/token',
     form: {
       grant_type: 'refresh_token',
@@ -68,7 +70,7 @@ app.get('/refresh_token', (req, res) => {
     },
     json: true
   };
-  request.post(authOptions, (error, response, body) => {
+  request.post(authOptions1, (error, response, body) => {
     console.log('body', body);
     let access_token = body.access_token;
     res.send({
