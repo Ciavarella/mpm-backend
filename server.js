@@ -53,6 +53,8 @@ app.get('/callback', (req, res) => {
 
 app.get('/refresh_token', (req, res) => {
   let refresh_token = req.query.refresh_token;
+  console.log('reqQuery', req.query);
+  console.log.log('token', refresh_token);
   let authOptions1 = {
     url: 'https://accounts.spotify.com/api/token',
     form: {
