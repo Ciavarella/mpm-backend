@@ -69,12 +69,10 @@ app.get('/refresh_token', (req, res) => {
     json: true
   };
   request.post(authOptions, (error, response, body) => {
-    if (!error && response.statusCode === 200) {
-      let access_token = body.access_token;
-      res.send({
-        access_token: access_token
-      });
-    }
+    let access_token = body.access_token;
+    res.send({
+      access_token: access_token
+    });
   });
 });
 
