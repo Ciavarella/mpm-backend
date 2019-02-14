@@ -49,5 +49,34 @@ app.get('/callback', (req, res) => {
   });
 });
 
+app.get('/refresh_token', function(req, res) {
+  let refresh_token = req.query.refresh_token;
+  let authOptions = {
+    url: 'https://accounts.spotify.com/api/token',
+    form: {
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token
+    },
+    headers: {
+      Authorization:
+        'Basic ' +
+        Buffer.from(
+          process.env.SPOTIFY_CLIENT_ID +
+            ':' +
+            process.env.SPOTIFY_CLIENT_SECRET
+        ).toString('base64')
+    },
+    json: true
+  };
+  request.post(authOptions, function(error, response, body) {
+    if (!error && response.statusCode === 200) {
+      var access_token = body.access_token;
+      res.send({
+        access_token: access_token
+      });
+    }
+  });
+});
+
 console.log(`Express listening to port: ${port}`);
 app.listen(port);
