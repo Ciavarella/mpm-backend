@@ -71,8 +71,7 @@ app.get('/refresh_token', (req, res) => {
   request.post(authOptions1, (error, response, body) => {
     let access_token = body.access_token;
     res.send({
-      access_token: access_token,
-      expires_in: expires_in
+      access_token: access_token
     });
   });
 });
