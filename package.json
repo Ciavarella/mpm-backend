@@ -3,18 +3,20 @@
   "version": "1.0.0",
   "homepage": "/",
   "scripts": {
-    "start": "node server.js",
-    "heroku-postbuild": "npm install"
+    "start": "node src/index.js",
+    "heroku-postbuild": "npm install",
+    "heroku-start": "npm run start"
   },
-  "buildpacks": [
-    {
-      "url": "https://github.com/mars/create-react-app-buildpack"
-    }
-  ],
   "dependencies": {
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "querystring": "^0.2.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express-jwt": "^5.3.1",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.10"
   }
 }
