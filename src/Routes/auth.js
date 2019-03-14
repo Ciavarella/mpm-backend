@@ -41,7 +41,7 @@ router.get('/callback', (req, res) => {
   request.post(authOptions, (error, response, body) => {
     const access_token = body.access_token;
     const refresh_token = body.refresh_token;
-    const uri = 'https://mpm-template.herokuapp.com/index.html';
+    const uri = 'https://mpm-dashboard.herokuapp.com/auth/redirect';
     res.redirect(
       uri + '?access_token=' + access_token + '?refresh_token=' + refresh_token
     );
