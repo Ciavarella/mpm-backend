@@ -40,9 +40,11 @@ router.get('/callback', (req, res) => {
     json: true
   };
   request.post(authOptions, (error, response, body) => {
+    const access_token = body.access_token;
+    const refresh_token = body.refresh_token;
     res.send({
-      access_token: body.access_token,
-      refresh_token: body.refresh_token
+      access_token: access_token,
+      refresh_token: refresh_token
     });
   });
 });
