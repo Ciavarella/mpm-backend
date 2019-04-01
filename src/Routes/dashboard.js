@@ -1,15 +1,15 @@
-const express = require('express');
-const querystring = require('querystring');
-const router = express.Router();
-const jwt = require('../Helpers/jwt');
-const axios = require('axios');
+const express = require('express')
+const querystring = require('querystring')
+const router = express.Router()
+const jwt = require('../Helpers/jwt')
+const axios = require('axios')
 
-const User = require('../Models/User');
+const DB = require('../Models')
 
 const redirect_uri =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:8080/dashboard/callback'
-    : 'https://mpm-node-backend.herokuapp.com/dashboard/callback';
+    : 'https://mpm-node-backend.herokuapp.com/dashboard/callback'
 
 router.get('/', (req, res) => {
   res.redirect(
@@ -21,17 +21,17 @@ router.get('/', (req, res) => {
           'user-read-private user-read-email user-read-currently-playing user-read-playback-state user-modify-playback-state',
         redirect_uri
       })
-  );
-});
+  )
+})
 
 router.get('/callback', async (req, res) => {
   const formData = {
     code: req.query.code,
     redirect_uri,
     grant_type: 'authorization_code'
-  };
+  }
 
-  const tokenUrl = 'https://accounts.spotify.com/api/token';
+  const tokenUrl = 'https://accounts.spotify.com/api/token'
 
   try {
     const getUserToken = await axios.post(
@@ -50,10 +50,10 @@ router.get('/callback', async (req, res) => {
             ).toString('base64')
         }
       }
-    );
+    )
 
-    const { access_token, refresh_token } = getUserToken.data;
-    const meUrl = 'https://api.spotify.com/v1/me';
+    const { access_token, refresh_token } = getUserToken.data
+    const meUrl = 'https://api.spotify.com/v1/me'
 
     const getUserByToken = await axios({
       method: 'GET',
@@ -61,30 +61,34 @@ router.get('/callback', async (req, res) => {
       headers: {
         Authorization: 'Bearer ' + access_token
       }
-    });
+    })
 
-    const { email, display_name, id } = getUserByToken.data;
-    let user = await User.findOne({ email }).exec();
+    const { email, display_name, id } = getUserByToken.data
+
+    let user = await DB.User.findOne({
+      where: { email }
+    })
 
     if (!user) {
-      user = await User.create({
+      user = await DB.User.create({
         username: display_name,
         email: email,
-        spotifyId: id
-      });
+        spotifyId: id,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
     }
 
-    const token = jwt.sign(access_token, refresh_token, user);
-
+    const token = jwt.sign(access_token, refresh_token, user.dataValues)
     const dashboard_uri =
       process.env.NODE_ENV === 'development'
-        ? 'http://localhost:3000'
-        : 'https://mpm-dashboard.herokuapp.com';
+        ? 'http://localhost:3000/auth'
+        : 'https://mpm-dashboard.herokuapp.com/auth'
 
-    res.redirect(dashboard_uri + '?token=' + token);
+    res.redirect(dashboard_uri + '?token=' + token)
   } catch (error) {
-    console.error('error', error);
+    console.error('error', error)
   }
-});
+})
 
-module.exports = router;
+module.exports = router

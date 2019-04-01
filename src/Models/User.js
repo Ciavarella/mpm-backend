@@ -1,11 +1,30 @@
-const mongoose = require('mongoose');
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    spotifyId: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
+  })
 
-let UserSchema = new mongoose.Schema({
-  username: String,
-  email: String,
-  spotifyId: String
-});
+  User.associate = models => {
+    User.hasMany(models.Session, {
+      as: 'Sessions',
+      foreignKey: 'id'
+    })
+  }
 
-mongoose.model('User', UserSchema);
-
-module.exports = mongoose.model('User');
+  return User
+}

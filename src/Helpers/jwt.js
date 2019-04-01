@@ -1,12 +1,12 @@
-const jsonwebtoken = require('jsonwebtoken');
+const jsonwebtoken = require('jsonwebtoken')
 
-const bearerToken = token => token.replace('Bearer ', '');
+const bearerToken = token => token.replace('Bearer ', '')
 
 const jwt = {
   sign: (accesstoken, refreshtoken, user) => {
-    const { spotifyId, email, username } = user;
+    const { spotifyId, email, username } = user
 
-    const time = process.env.NODE_ENV === 'development' ? 31556926 : 86400;
+    const time = process.env.NODE_ENV === 'development' ? 31556926 : 86400
 
     return jsonwebtoken.sign(
       {
@@ -23,10 +23,10 @@ const jwt = {
         expiresIn: time,
         algorithm: 'HS256'
       }
-    );
+    )
   },
   verify: token => {
-    const tokenString = bearerToken(token);
+    const tokenString = bearerToken(token)
 
     try {
       const verifiedToken = jsonwebtoken.verify(
@@ -35,14 +35,14 @@ const jwt = {
         {
           algorithms: ['HS256']
         }
-      );
+      )
 
-      return verifiedToken;
+      return verifiedToken
     } catch (error) {
-      console.error('Token could not be verified! ', error);
-      throw new jsonwebtoken.JsonWebTokenError('Token could not be verified!');
+      console.error('Token could not be verified! ', error)
+      throw new jsonwebtoken.JsonWebTokenError('Token could not be verified!')
     }
   }
-};
+}
 
-module.exports = jwt;
+module.exports = jwt
