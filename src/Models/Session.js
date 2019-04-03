@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    musicTime: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     userId: DataTypes.INTEGER
   })
   Session.associate = models => {

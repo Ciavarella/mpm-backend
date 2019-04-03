@@ -3,7 +3,7 @@ const router = express.Router()
 const DB = require('../Models')
 
 router.post('/', async (req, res) => {
-  const { totalTime, pausedTimes, sessionId } = req.body
+  const { totalTime, pausedTimes, sessionId, musicTime } = req.body
   const { email, display_name, id } = req.body.user
   let user = await DB.User.findOne({ where: { email: email } })
 
@@ -22,6 +22,7 @@ router.post('/', async (req, res) => {
       id: sessionId,
       totalTime: totalTime,
       pausedTimes: pausedTimes,
+      musicTime: musicTime,
       userId: user.id,
       createdAt: new Date(),
       updatedAt: new Date()
