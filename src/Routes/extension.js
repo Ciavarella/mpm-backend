@@ -43,4 +43,19 @@ router.get('/:id', async (req, res) => {
   res.json(sessions)
 })
 
+router.get('/total/:id', async (req, res) => {
+  let totalSessions = await DB.Session.findOne({
+    attributes: [
+      [
+        DB.Sequelize.fn('sum', DB.Sequelize.col('pausedTimes')),
+        'pausedTimesSum'
+      ],
+      [DB.Sequelize.fn('sum', DB.Sequelize.col('musicTime')), 'musicTimeSum'],
+      [DB.Sequelize.fn('sum', DB.Sequelize.col('totalTime')), 'totalTimeSum']
+    ],
+    where: { userId: req.params.id }
+  })
+  res.json(totalSessions)
+})
+
 module.exports = router
