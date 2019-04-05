@@ -19,12 +19,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   })
 
-  User.associate = models => {
-    User.hasMany(models.Session, {
-      as: 'Sessions',
-      foreignKey: 'id'
-    })
-  }
-
   return User
 }

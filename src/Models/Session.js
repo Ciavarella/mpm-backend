@@ -15,15 +15,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     musicTime: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     userId: DataTypes.INTEGER
   })
+
   Session.associate = models => {
     Session.belongsTo(models.User, {
       as: 'User',
       foreignKey: 'userId'
     })
   }
+
   return Session
 }
