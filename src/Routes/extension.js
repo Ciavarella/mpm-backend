@@ -58,4 +58,29 @@ router.get('/total/:id', async (req, res) => {
   res.json(totalSessions)
 })
 
+router.post('/settings/:id', async (req, res) => {
+  let settings = req.body
+
+  let user = await DB.User.update(
+    {
+      settings: settings
+    },
+    {
+      where: { id: req.params.id },
+      returning: true
+    }
+  )
+
+  res.json(user)
+})
+
+router.get('/settings/:id', async (req, res) => {
+  let user = await DB.User.findOne({
+  attributes: ['settings'],
+  where: {id: req.params.id}
+ })
+
+ res.json(user)
+})
+
 module.exports = router
