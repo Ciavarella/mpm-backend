@@ -91,4 +91,52 @@ router.get('/callback', async (req, res) => {
   }
 })
 
+/**
+ * Get all sessions by user id.
+ * */
+router.get('/:id', async (req, res) => {
+  let sessions = await DB.Session.findAll({
+    where: { userId: req.params.id },
+    order: [['createdAt', 'DESC']]
+  })
+  res.json(sessions)
+})
+
+/**
+ * Get all sessions total time by user id.
+ * */
+router.get('/total/:id', async (req, res) => {
+  let totalSessions = await DB.Session.findOne({
+    attributes: [
+      [
+        DB.Sequelize.fn('sum', DB.Sequelize.col('pausedTimes')),
+        'pausedTimesSum'
+      ],
+      [DB.Sequelize.fn('sum', DB.Sequelize.col('musicTime')), 'musicTimeSum'],
+      [DB.Sequelize.fn('sum', DB.Sequelize.col('totalTime')), 'totalTimeSum']
+    ],
+    where: { userId: req.params.id }
+  })
+  res.json(totalSessions)
+})
+
+/**
+ * Insert settings to user.
+ * */
+router.post('/settings/:id', async (req, res) => {
+  let settings = req.body
+
+  let user = await DB.User.update(
+    {
+      settings: settings
+    },
+    {
+      where: { id: req.params.id },
+      returning: true
+    }
+  )
+
+  res.json(user)
+})
+
 module.exports = router
