@@ -2,6 +2,19 @@ const express = require('express')
 const router = express.Router()
 const DB = require('../Models')
 
+/**
+ * This route is used by the extension.
+ * */
+
+
+/**
+ * Method used when the user is running the extension
+ * and it sends data to the database.
+ *
+ * Find the user and sets the session with foreign key to the user.
+ *
+ * Creates the user if there is no user found.
+ * */
 router.post('/', async (req, res) => {
   const { totalTime, pausedTimes, sessionId, musicTime } = req.body
   const { email, display_name, id } = req.body.user
@@ -35,6 +48,9 @@ router.post('/', async (req, res) => {
   res.json({ user, session })
 })
 
+/**
+ * Get all sessions by user id.
+ * */
 router.get('/:id', async (req, res) => {
   let sessions = await DB.Session.findAll({
     where: { userId: req.params.id },
@@ -43,6 +59,9 @@ router.get('/:id', async (req, res) => {
   res.json(sessions)
 })
 
+/**
+ * Get all sessions total time by user id.
+ * */
 router.get('/total/:id', async (req, res) => {
   let totalSessions = await DB.Session.findOne({
     attributes: [
@@ -58,6 +77,9 @@ router.get('/total/:id', async (req, res) => {
   res.json(totalSessions)
 })
 
+/**
+ * Insert settings to user.
+ * */
 router.post('/settings/:id', async (req, res) => {
   let settings = req.body
 
@@ -74,6 +96,9 @@ router.post('/settings/:id', async (req, res) => {
   res.json(user)
 })
 
+/**
+ *  Get user settings by user id.
+ *  */
 router.get('/settings/:id', async (req, res) => {
   let user = await DB.User.findOne({
   attributes: ['settings'],
