@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "homepage": "/",
   "scripts": {
-    "start": "NODE_ENV=development nodemon src/index.js",
+    "start": "nodemon src/index.js",
+    "start-dev": "NODE_ENV=development nodemon src/index.js",
     "heroku-postbuild": "npm install",
     "heroku-start": "npm run start"
   },
