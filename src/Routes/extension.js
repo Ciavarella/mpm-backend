@@ -49,8 +49,6 @@ router.post('/user', async (req, res) => {
   const { email, display_name, id } = req.body.user
   let user = await DB.User.findOne({ where: { email: email } })
 
-  console.log('USER', req.body.user)
-
   if (!user) {
     user = await DB.User.create({
       username: display_name,
