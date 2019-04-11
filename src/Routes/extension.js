@@ -66,16 +66,19 @@ router.post('/user', async (req, res) => {
  * Get user settings by email.
 * */
 router.get('/settings', async(req, res) => {
-  const { email } = req.body.user
+  const { email } = req.headers
+
   let user = await DB.User.findOne({
     attributes: ['settings'],
     where: { email: email }
   })
+
   res.json(user)
 })
 
 /**
- *  Get user settings by user id.
+ *  Not currently used.
+ *  Get user settings by user id. 
  *  */
 router.get('/settings/:id', async (req, res) => {
   let user = await DB.User.findOne({
