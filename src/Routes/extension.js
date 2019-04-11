@@ -45,6 +45,37 @@ router.post('/', async (req, res) => {
   res.json({ user, session })
 })
 
+router.post('/user', async (req, res) => {
+  const { email, display_name, id } = req.body.user
+  let user = await DB.User.findOne({ where: { email: email } })
+
+  console.log('USER', req.body.user)
+
+  if (!user) {
+    user = await DB.User.create({
+      username: display_name,
+      email: email,
+      spotifyId: id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    })
+  }
+
+  res.json(user)
+})
+
+/**
+ * Get user settings by email.
+* */
+router.get('/settings', async(req, res) => {
+  const { email } = req.body.user
+  let user = await DB.User.findOne({
+    attributes: ['settings'],
+    where: { email: email }
+  })
+  res.json(user)
+})
+
 /**
  *  Get user settings by user id.
  *  */
