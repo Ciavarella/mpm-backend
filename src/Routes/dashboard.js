@@ -83,7 +83,7 @@ router.get('/callback', async (req, res) => {
     const dashboard_uri =
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:3000/auth'
-        : 'https://mpm-dashboard.herokuapp.com/auth'
+        : 'https://ciavarella.dev/auth'
 
     res.redirect(dashboard_uri + '?token=' + token)
   } catch (error) {
