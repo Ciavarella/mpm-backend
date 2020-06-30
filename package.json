@@ -15,7 +15,7 @@
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
-    "express-jwt": "^5.3.1",
+    "express-jwt": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
     "objection": "^1.6.7",
     "pg": "^7.9.0",
